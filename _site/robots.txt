@@ -1,0 +1,5 @@
+User-agent: *
+
+Disallow: /norobots/
+
+Sitemap: http://localhost:4000/czh451060866.github.io/sitemap.xml
