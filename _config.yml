@@ -200,8 +200,3 @@ sitemap_exclude:  # Sitemap will exclude the following items.
     - sitemap.xml
     - robots.txt
     - redirects.json
-# Gitalk settings
-comment_gitalk_clientId: 7887cfaf41452b487b27
-comment_gitalk_clientSecret: 3d51affaf889c1747f5b574ad32571af5a16ac32
-comment_gitalk_repo: czh451060866.github.io
-github_username: czh451060866

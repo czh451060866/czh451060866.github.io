@@ -1,5 +1,0 @@
-User-agent: *
-
-Disallow: /norobots/
-
-Sitemap: https://czh451060866.github.io/czh451060866.github.io/sitemap.xml
