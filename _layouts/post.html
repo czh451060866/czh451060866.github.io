@@ -59,6 +59,15 @@
      {% endif %}
  </div>
 
+ <div>
+    {% if site.comments.gitalk %}
+    <section class="post-footer-item comment" style="padding-bottom: 4em">
+      <div id="gitalk_container"></div>
+      <div id="disqus_thread"></div>
+    </section>
+    {% endif %}
+  </div>
+
   <section class="author-detail">
     <section class="post-footer-item author-card">
       <div class="avatar">
@@ -156,7 +165,7 @@
   {% if site.comments.gitalk %}
   <script>
     var gitalk = new Gitalk({
-      id: location.pathname,
+      id: '{{page.date}}',
       clientID: '{{ site.comments.clientID }}',  //这里其实可以直接填值，但是考虑到页面安全性，还是通过配置的方式添加
       clientSecret: '{{ site.comments.secret }}', 
       repo: '{{ site.comments.repo }}', 
