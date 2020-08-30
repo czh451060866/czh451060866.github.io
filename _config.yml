@@ -1,202 +1,94 @@
-# The Site Settings
-# v2.0
-# https://github.com/cotes2020/jekyll-theme-chirpy
-# © 2017-2019 Cotes Chung
-# MIT licensed
+# Site settings 配置站点
+title: '阿呆的博客'
+description: '沉淀'
+keyword: 'android开发，Opengl，音视频'
+url: 'https://czh451060866.github.io' # your host
 
-
-# jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
-#--------------------------
-
-title: 阿呆的博客                          # the main title
-
-tagline: 沉淀  # it will display as the sub-title
-
-description: >-                        # used by seo meta and the atom feed
-  A minimal, portfolio, sidebar,
-  bootstrap Jekyll theme with responsive web design
-  and focuses on text presentation.
-
-# Replace with the website url, e.g. 'https://username.github.io'
-url: 'https://czh451060866.github.io'
-
-author: czh451060866                  # change to your full name
-
-avatar: /assets/img/sample/avatar.jpg   # support internet resources
-
-github:
-  username: czh451060866             # change to your github username
-
-twitter:
-  username: none            # change to your twitter username
-
-social:
-  name: 阿呆                  # it will shows as the copyright owner in Footer
-  email: 451060866@qq.com             # change to your email address
-  links:
-    # The first element serves as the copyright owner's link
-    - https://twitter.com/none      # change to your twitter homepage
-    - https://github.com/czh451060866       # change to your github homepage
-    # Uncomment below to add more social links
-    # - https://www.facebook.com/username
-    # - https://www.linkedin.com/in/username
-
-google_site_verification: google_meta_tag_verification # change to your verification string
-
-#--------------------------
-
-
-# Only if your site type is GitHub Project sites and doesn't have a custom domain,
-# change below value to '/projectname'.
+# when build blog on server, if you don't need baseurl, you should leave this value blank.
+# 在服务器上建站时，如果你不需要子域名，请将这一格留空
+# if you're using GitHub Pages, set baseurl to your blog's .
+# 如果你在使用 GitHub Pages, 请将 baseurl 设置为你的网址的子域名
+# for example, if your site is "kaeyleo.github.io", then this url should leave blank.
+# 例如，当你的域名是 "kaeyleo.github.io"  时，这个 url 需要留空
+# but if your created a repo named "myblog", and the site is "kaeyleo.github.io/myblog", change baseurl to '/myblog'
+# 但是，如果你创建了一个叫 "myblog" 的网站，此时网址会变成 "kaeyleo.github.io/myblog" ，这时再将 baseurl 设置为 '/myblog'
 baseurl: '/czh451060866.github.io'
 
-# Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
-timezone: Asia/Shanghai
+# Navigation links
+nav:
+  home: '/'
+  tags: '/tags.html'
 
-google_analytics:
-  id: ''          # Fill with your Google Analytics ID
-  pv:
-    # The Google Analytics pageviews switch.
-    # DO NOT enable it unless you know how to deploy the Google Analytics superProxy.
-    enabled: false
-    # the next options only valid when `google_analytics.pv` is enabled.
-    proxy_url: ''
-    proxy_endpoint: ''
-    cache: false  # pv data local cache, good for the users from GFW area.
+# Footer
+footer:
+  since: 2020
 
-disqus:
-  comments: false  # boolean type, the global switch for posts comments.
-  shortname: ''    # Fill with your Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
+# Author 配置博主信息
+author: '陈智辉'
+nickname: '阿呆'
+bio: '沉淀自己'
+avatar: '/assets/img/profile.png'
 
+# Search
+search: true
 
-# Prefer color scheme setting, available values:
-#
-#     dual   - Follow the system prefer color by default, and a toggle will display
-#              in the left bottom of Sidebar, which used for switch the theme between dark and light.
-#
-#     light  - Use the light color scheme
-#
-#     dark   - Use the dark color scheme
-#
-theme_mode: dual
+# Night mode
+nightMode: true
 
-# boolean type, global switch for ToC in posts.
-toc: true
+# Comments 评论功能
+comments:
+  disqus: false
+  disqus_url: 'https://liaokeyu.disqus.com/embed.js'
+  gitalk: true
+  clientId: '7887cfaf41452b487b27'
+  secret: '3d51affaf889c1747f5b574ad32571af5a16ac32'
+  repo: 'czh451060866.github.io'
+  owner: 'czh451060866'
+  admin: 'czh451060866'
+  distractionFreeMode: true
 
-paginate: 10
+# MathJax 公式支持 by Ray-Eldath
+mathjax: true
 
+# Share
+social-share: true
+social-share-items: ['wechat', 'weibo', 'douban', 'twitter']
+
+# theme color 主题皮肤
+theme-color: 'default'  # pink or default
+
+# Post header background patterns (when the post no cover): circuitBoard, overlappingCircles, food, glamorous, ticTacToe, seaOfClouds
+postPatterns: 'circuitBoard'
+
+# SNS settings 配置社交网站
+# url: email, weibo, zhihu, twitter, instagram, juejin, github, douban, facebook, dribble, uicn, jianshu, medium, linkedin
+sns:
+  weibo: ''
+  juejin: ''
+  instagram: ''
+  github: ''
+
+# Tags 设置标签
+recommend-tags: true # whether or not display recommend-tags on the sidebar
+recommend-condition-size: 12 # a tag will be recommended if the size of it is more than this value
+
+# Build settings
+paginate: 6
+paginate_path: 'page:num'
+exclude: ['node_modules', 'dev', 'package.json', 'gulpfile.js', '.gitignore', 'README.md']
+
+# Markdown
 markdown: kramdown
-
 highlighter: rouge
-
 kramdown:
   input: GFM
-  syntax_highlighter: rouge
-  syntax_highlighter_opts: # Rouge Options › https://github.com/jneen/rouge#full-options
-    css_class: 'highlight'
-    # default_lang: console
-    span:
-      line_numbers: false
-    block:
-      line_numbers: true
-      start_line: 1
 
-# DO NOT change this unless you're a Pro user on Jekyll and Web development,
-# or you think you're smart enough to change other relevant URLs within this template.
-permalink: /posts/:title/
+# RSS
+RSS: false
 
-defaults:
-  -
-    scope:
-      path: ""          # An empty string here means all files in the project
-      type: posts
-    values:
-      layout: post
-      comments: true    # Enable comments in posts.
-      toc: true         # Display TOC column in posts.
-      location: Post
-      breadcrumb:
-        -
-          label: Posts
-          url: /
-  -
-    scope:
-      path: _drafts
-    values:
-      comments: false
-  -
-    scope:
-      path: tags
-    values:
-      tab_active: Tags
-      location: Tag
-      breadcrumb:
-        -
-          label: Home
-          url: /
-        -
-          label: Tags
-          url: /tabs/tags/
-  -
-    scope:
-      path: categories
-    values:
-      tab_active: Categories
-      location: Category
-      breadcrumb:
-        -
-          label: Home
-          url: /
-        -
-          label: Categories
-          url: /tabs/categories/
-  -
-    scope:
-      path: tabs
-    values:
-      layout: page
-      dynamic_title: true    # Hide title in mobile screens.
-      breadcrumb:
-        -
-          label: Home
-          url: /
+# Permalink
+# See: https://github.com/kaeyleo/jekyll-theme-H2O/issues/35
+permalink: /:year/:month/:day/:title.html
 
-
-sass:
-  sass_dir: /assets/css
-  style: compressed
-
-compress_html:
-  clippings: all
-  comments: ["<!-- ", " -->"]
-  endings: [html, head, body, dt, dd, rt, rp,
-            optgroup, option, colgroup, caption,
-            thead, tbody, tfoot, tr, td, th]
-  profile: false
-  blanklines: false
-  ignore:
-    envs: []
-
-exclude:
-  - vendor        # Avoid Jekyll mistakenly read the vendor directory on Travis-CI's VM .
-  - Gemfile.lock
-  - Gemfile
-  - tools
-  - docs
-  - README.md
-  - LICENSE
-
-sitemap_exclude:  # Sitemap will exclude the following items.
-  fuzzy:
-    - /assets/
-  accurate:
-    - /norobots/
-    - /tabs/
-    - /categories/
-    - /tags/
-    - /posts/
-    - 404.html
-    - feed.xml
-    - sitemap.xml
-    - robots.txt
-    - redirects.json
+# Plugins
+plugins: [jekyll-paginate]
