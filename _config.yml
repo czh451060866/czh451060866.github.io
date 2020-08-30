@@ -41,11 +41,11 @@ comments:
   disqus_url: 'https://liaokeyu.disqus.com/embed.js'
   gitalk: true
   clientId: '7887cfaf41452b487b27'
-  secret: '3d51affaf889c1747f5b574ad32571af5a16ac32'
+  secret: 'c942c3a7dc4624af0fbcdad847418d2cde8dc37e'
   repo: 'czh451060866.github.io'
   owner: 'czh451060866'
   admin: 'czh451060866'
-  distractionFreeMode: true
+  distractionFreeMode: true;
 
 # MathJax 公式支持 by Ray-Eldath
 mathjax: true
