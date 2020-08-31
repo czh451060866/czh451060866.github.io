@@ -30,7 +30,7 @@
 
 .markdown-body .pl-smi,
 .markdown-body .pl-s .pl-s1 {
-  color: #000000;
+  color: #888;
 }
 
 .markdown-body .pl-ent {
@@ -96,12 +96,12 @@
 
 .markdown-body .pl-mi {
   font-style: italic;
-  color: #000000;
+  color: #FFF;
 }
 
 .markdown-body .pl-mb {
   font-weight: bold;
-  color: #0000000;
+  color: #fff;
 }
 
 .markdown-body .pl-md {
@@ -576,7 +576,7 @@ li p:nth-child(2) {
 }
 
 .markdown-body table tr {
-  background-color: #000000;
+  background-color: #fff;
   border-top: 1px solid #c6cbd1;
 }
 
@@ -632,5 +632,5 @@ li p:nth-child(2) {
 }
 
 .markdown-body hr {
-  border-bottom-color: #000000;
+  border-bottom-color: #fff;
 }
