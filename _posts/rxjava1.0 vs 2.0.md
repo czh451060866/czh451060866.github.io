@@ -1,0 +1,266 @@
+---
+layout: post
+title: RxJava1.0 与 2.0的区别
+date: 2020-08-31
+categories: android框架 
+tags: android rxjava 
+---
+
+#### RxJava 2相比于RxJava 1，改动还是比较大的，这里我们来简单说一下API上的改变
+
+## 1. Flowable
+RxJava1 中 Observable 不能很好地支持 backpressure ，最常见的例如UI事件，而不处理backpressure有可能导致MissingBackpressureException的出现。所以在 RxJava2 中 Oberservable 不再支持 backpressure ，而使用新增的 Flowable 来支持 backpressure 。
+Flowable的用法跟原先的Observable是一样的。
+
+## 2. ActionN 和 FuncN 改名 
+ActionN 和 FuncN 遵循Java 8的命名规则。
+其中，Action0 改名成Action，Action1改名成Consumer，而Action2改名成了BiConsumer，而Action3 - Action9都不再使用了，ActionN变成了Consumer<Object[]> 。
+
+同样，Func改名成Function，Func2改名成BiFunction，Func3 - Func9 改名成 Function3 - Function9，FuncN 由 Function<Object[], R> 取代。
+
+## 3. Observable.OnSubscribe 变成 ObservableOnSubscribe
+RxJava1的写法：
+```java
+Observable.create(new Observable.OnSubscribe<String>() {
+ 
+ @Override
+ public void call(Subscriber<? super String> subscriber) {
+  subscriber.onNext("hello");
+ }
+ 
+}).subscribe(new Action1<String>() {
+ 
+ @Override
+ public void call(String s) {
+  System.out.println(s);
+ }
+});
+```
+
+RxJava2的写法：
+```java
+Observable.create(new ObservableOnSubscribe<String>() {
+ 
+ @Override
+ public void subscribe(ObservableEmitter<String> e) throws Exception {
+  e.onNext("hello");
+ }
+ 
+}).subscribe(new Consumer<String>() {
+ 
+ @Override
+ public void accept(String s) {
+  System.out.println(s);
+ }
+});
+```
+
+## 4.ObservableOnSubscribe 中使用 ObservableEmitter 发送数据给 Observer
+结合上一条，ObservableOnSubscribe 不再使用 Subscriber 而是用 ObservableEmitter 替代。
+
+ObservableEmitter 可以理解为发射器，是用来发出事件的，它可以发出三种类型的事件，通过调用emitter的onNext(T value) 、onComplete()和onError(Throwable error)可以分别发出next事件、complete事件和error事件。 如果只关心next事件的话，只需单独使用onNext()即可。
+
+需要特别注意，emitter的onComplete()调用后，Consumer不再接收任何next事件。
+
+## 5. Observable.Transformer 变成 ObservableTransformer
+RxJava1的写法：
+```java
+/**
+ * 跟compose()配合使用,比如ObservableUtils.wrap(obj).compose(toMain())
+ * @param <T>
+ * @return
+ */
+public static <T> Observable.Transformer<T, T> toMain() {
+ return new Observable.Transformer<T, T>() {
+  @Override
+  public Observable<T> call(Observable<T> tObservable) {
+   return tObservable
+     .subscribeOn(Schedulers.io())
+     .observeOn(AndroidSchedulers.mainThread());
+  }
+ };
+}
+```
+
+RxJava2的写法：
+```java
+/**
+ * 跟compose()配合使用,比如ObservableUtils.wrap(obj).compose(toMain())
+ * @param <T>
+ * @return
+ */
+public static <T> ObservableTransformer<T, T> toMain() {
+ 
+ return new ObservableTransformer<T, T>() {
+ 
+  @Override
+  public ObservableSource<T> apply(Observable<T> upstream) {
+   return upstream.subscribeOn(Schedulers.io())
+     .observeOn(AndroidSchedulers.mainThread());
+  }
+ };
+}
+```
+由于新增了Flowable，同理也增加了FlowableTransformer
+```java
+public static <T> FlowableTransformer<T, T> toMain() {
+ 
+ return new FlowableTransformer<T, T>() {
+ 
+  @Override
+  public Publisher<T> apply(Flowable<T> upstream) {
+   return upstream.subscribeOn(Schedulers.io())
+     .observeOn(AndroidSchedulers.mainThread());
+  }
+ };
+}
+```
+
+## 6.Subscription 改名为 Disposable
+在 RxJava2 中，由于已经存在了 org.reactivestreams.subscription 这个类，为了避免名字冲突将原先的 rx.Subscription 改名为 io.reactivex.disposables.Disposable 。
+
+刚开始不知道，在升级 RxJava2 时发现 org.reactivestreams.subscription 这个类完全没法做原先 rx.Subscription 的事情:(
+
+顺便说下，Disposable必须单次使用，用完就要销毁。
+
+## 7. first() 用法改变
+官方文档是这么描述的first()的用法
+| 1.x                          | 2.x                                             |
+|:-----------------------------|:------------------------------------------------|
+| first()                      | RC3 renamed to firstElement and returns Maybe<T>|
+| first(Func1)                 | dropped, use filter(predicate).first()          |
+| firstOrDefault(T)            | renamed to first(T) and RC3 returns Single<T>   |
+| firstOrDefault(Func1, T)     | renamed to first(T) and RC3 returns Single<T>   |
+
+以first(Func1)为例，first(Func1)后面还使用了push() ，原先 Rxjava1会这样写
+```java
+ConnectableObservable<Data> connectableObservable = Observable
+   .concat(Observable.from(list))
+   .first(new Func1<Data, Boolean>() {
+    @Override
+    public Boolean call(Data data) {
+     return DataUtils.isAvailable(data);
+    }
+   }).publish();
+```
+RxJava2 改成这样
+```java
+ConnectableObservable<Data> connectableObservable = Observable
+   .concat(Observable.fromIterable(list))
+   .filter(new Predicate<Data>() {
+ 
+    @Override
+    public boolean test(@NonNull Data data) throws Exception {
+     return DataUtils.isAvailable(data);
+    }
+   }).firstElement().toObservable().publish();
+```
+## 8. toBlocking().y 被 blockingY() 取代
+在我的框架中存在着一个Optional类，它跟Java 8的Optional作用差不多，原先是使用RxJava1来编写的。
+```java
+import rx.Observable;
+ 
+/**
+ * 使用方法:
+ *   String s = null;
+ *   Optional.ofNullable(s).orElse("default")); // 如果s为null,则显示default,否则显示s的值
+ * @author Tony Shen
+ *
+ */
+public class Optional<T> {
+ 
+ Observable<T> obs;
+ 
+ public Optional(Observable<T> obs) {
+  this.obs = obs;
+ }
+ 
+ public static <T> Optional<T> of(T value) {
+  if (value == null) {
+   throw new NullPointerException();
+  } else {
+   return new Optional<T>(Observable.just(value));
+  }
+ }
+ 
+ public static <T> Optional<T> ofNullable(T value) {
+  if (value == null) {
+   return new Optional<T>(Observable.<T>empty());
+  } else {
+   return new Optional<T>(Observable.just(value));
+  }
+ }
+ 
+ public T get() {
+  return obs.toBlocking().single();
+ }
+ 
+ public T orElse(T defaultValue) {
+  return obs.defaultIfEmpty(defaultValue).toBlocking().single();
+ }
+}
+```
+升级到RxJava2之后，get()和 orElse()方法都会报错，修改之后是这样的。
+```java
+import io.reactivex.Observable;
+ 
+/**
+ * 使用方法:
+ *   String s = null;
+ *   Optional.ofNullable(s).orElse("default"); // 如果s为null,则显示default,否则显示s的值
+ * @author Tony Shen
+ *
+ */
+public class Optional<T> {
+ 
+ Observable<T> obs;
+ 
+ public Optional(Observable<T> obs) {
+  this.obs = obs;
+ }
+ 
+ public static <T> Optional<T> of(T value) {
+  if (value == null) {
+   throw new NullPointerException();
+  } else {
+   return new Optional<T>(Observable.just(value));
+  }
+ }
+ 
+ public static <T> Optional<T> ofNullable(T value) {
+  if (value == null) {
+   return new Optional<T>(Observable.<T>empty());
+  } else {
+   return new Optional<T>(Observable.just(value));
+  }
+ }
+ 
+ public T get() {
+ 
+  return obs.blockingSingle();
+ }
+ 
+ public T orElse(T defaultValue) {
+ 
+  return obs.defaultIfEmpty(defaultValue).blockingSingle();
+ }
+}
+```
+
+## 9. PublishSubject
+包括 PublishSubject 以及各种 Subject(ReplaySubject、BehaviorSubject、AsyncSubject) 都不再支持backpressure。
+
+#### 总结
+
+RxJava2 所带来的变化远远不止这些，以后遇到的话还会继续整理和总结，毕竟我使用的 RxJava2 还是很少的一部分内容。
+
+RxJava2 最好到文档依然是官方文档。如果是新项目到话，可以毫不犹豫地使用RxJava2，如果是在线上已经成熟稳定的项目，可以再等等。对于新手的话，可以直接从 RxJava2 学起，RxJava1 就直接略过吧。对于老手，RxJava2 还是使用原来的思想，区别不大，从 RxJava1 迁移到 Rxjava2 也花不了多少工夫。
+
+
+
+
+
+
+
+
+
