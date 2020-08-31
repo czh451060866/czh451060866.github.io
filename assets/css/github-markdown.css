@@ -30,7 +30,7 @@
 
 .markdown-body .pl-smi,
 .markdown-body .pl-s .pl-s1 {
-  color: #333;
+  color: #000000;
 }
 
 .markdown-body .pl-ent {
@@ -101,7 +101,7 @@
 
 .markdown-body .pl-mb {
   font-weight: bold;
-  color: #333;
+  color: #0000000;
 }
 
 .markdown-body .pl-md {
@@ -185,7 +185,7 @@
   display: block;
   margin: 32px auto;
   max-width: 100%;
-  background-color: #fff;
+  background-color: #FFFFFF;
   border-style: none;
   box-sizing: content-box;
 }
@@ -589,7 +589,7 @@ li p:nth-child(2) {
   margin: 0;
   font-size: 85%;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  background-color: rgba(27,31,35,0.05);
+  background-color: rgba(255,255,255,1);
   border-radius: 3px;
 }
 
