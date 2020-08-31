@@ -576,7 +576,7 @@ li p:nth-child(2) {
 }
 
 .markdown-body table tr {
-  background-color: #fff;
+  background-color: #000000;
   border-top: 1px solid #c6cbd1;
 }
 
@@ -632,5 +632,5 @@ li p:nth-child(2) {
 }
 
 .markdown-body hr {
-  border-bottom-color: #eee;
+  border-bottom-color: #000000;
 }
