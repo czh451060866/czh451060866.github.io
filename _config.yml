@@ -45,7 +45,7 @@ comments:
   repo: 'czh451060866.github.io'
   owner: 'czh451060866'
   admin: 'czh451060866'
-  distractionFreeMode: true;
+  distractionFreeMode: true
 
 # MathJax 公式支持 by Ray-Eldath
 mathjax: true
