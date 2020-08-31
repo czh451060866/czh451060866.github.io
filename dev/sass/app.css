@@ -1032,7 +1032,7 @@ a {
   .markdown-body blockquote p {
     font-size: 18px;
     letter-spacing: 1px;
-    color: #888;
+    color: #000000;
     word-break: break-all; } }
 
 @media screen and (max-width: 376px) {
