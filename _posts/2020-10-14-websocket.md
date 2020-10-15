@@ -22,5 +22,5 @@ websocket是需要握手建立连接的
 联系： websocket建立连接时是通过http传输的，建立连接之后不需要http协议
 
 ## 和socket的关系
-其实就是没关系
+其实就是没关系  
 socket不是协议，是为了方便使用tcp和udp抽象出来的一层，位于传输控制层，websocket是应用层协议
