@@ -85,3 +85,5 @@ mClient.publish(mTopic, "publish msg".getBytes(), 0, false, MQTTApplication.getA
 
 如果客户机发布至它也预订了的某个主题，那么它将接收到它自己的发布的副本。
 如果使用值为 1 或 2 的 QoS 发送消息，那么该消息将由 MqttClientPersistence 类存储，之后 MQTT 客户机将调用 messageArrived
+
+demo地址：https://github.com/czh451060866/MQTTAndroid
